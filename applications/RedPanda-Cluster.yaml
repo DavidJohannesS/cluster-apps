@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: redpanda-cluster
+  namespace: argocd-apps
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/DavidJohannesS/argocd-bootstrap.git
+    targetRevision: HEAD
+    path: infra/redpanda/cluster
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: redpanda
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true

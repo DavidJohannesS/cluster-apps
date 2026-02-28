@@ -1,0 +1,21 @@
+apiVersion: cluster.redpanda.com/v1alpha1
+kind: Redpanda
+metadata:
+  name: redpanda-cluster
+  namespace: redpanda
+spec:
+  replicas: 3
+  version: v23.3.5
+  storage:
+    capacity: 20Gi
+    storageClassName: local-path
+  configuration:
+    developerMode: true
+  kafkaApi:
+    - port: 9092
+  adminApi:
+    - port: 9644
+  schemaRegistry:
+    port: 8081
+  pandaproxyApi:
+    - port: 8082
