@@ -9,9 +9,11 @@ spec:
     repoURL: 'https://github.com/strimzi/strimzi-kafka-operator.git'
     targetRevision: '0.41.0'
     path: 'install/cluster-operator'
+    directory:
+      recurse: true
   destination:
     server: 'https://kubernetes.default.svc'
-    namespace: kafka
+    namespace: strimzi
   syncPolicy:
     automated:
       prune: true

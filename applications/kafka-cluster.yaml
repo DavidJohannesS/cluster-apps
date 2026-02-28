@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: kafka-cluster
+  namespace: argocd-apps
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/DavidJohannesS/argocd-bootstrap.git
+    targetRevision: HEAD
+    path: infra/kafka
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: kafka
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
