@@ -25,6 +25,8 @@ spec:
             - --reserve-memory=0M
             - --node-id=0
             - --check=false
+            - --kafka-addr=PLAINTEXT://0.0.0.0:9092
+            - --advertise-kafka-addr=PLAINTEXT://redpanda.kafka.svc.cluster.local:9092
             - --set
             - redpanda.enable_transactions=false
             - --set
