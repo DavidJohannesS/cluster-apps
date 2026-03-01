@@ -1,0 +1,18 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: metallb-config
+  namespace: argocd-apps
+spec:
+  project: default
+  source:
+    repoURL: https://github.com/DavidJohannesS/argocd-bootstrap.git
+    targetRevision: HEAD
+    path: infra/metal-lb
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: metallb-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
