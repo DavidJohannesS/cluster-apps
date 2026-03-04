@@ -13,6 +13,8 @@ spec:
       labels:
         app: redpanda
     spec:
+      nodeSelector:
+        node-role.kubernetes.io/worker: worker
       containers:
         - name: redpanda
           image: docker.redpanda.com/redpandadata/redpanda:latest

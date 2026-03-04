@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: zot
+  namespace: argocd-apps
+spec:
+  project: default
+  source:
+    chart: zot
+    repoURL: https://zotregistry.dev/helm-charts
+    targetRevision: 0.1.x  # Check for latest stable
+    helm:
+      values: |
+        service:
+          type: ClusterIP
+          port: 5000
+        persistence:
+          enabled: true
+          storageClass: "local-path" # Switch to iSCSI later!
+          size: 20Gi
+        mountPath: /var/lib/zot
+        zotConfig:
+          http:
+            address: 0.0.0.0
+            port: 5000
+          storage:
+            rootDirectory: /var/lib/zot
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: zot
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

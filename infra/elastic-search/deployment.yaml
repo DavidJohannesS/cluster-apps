@@ -13,6 +13,8 @@ spec:
       labels:
         app: elasticsearch
     spec:
+      nodeSelector:
+        node-role.kubernetes.io/worker: worker
       containers:
         - name: elasticsearch
           image: docker.elastic.co/elasticsearch/elasticsearch:8.12.0
