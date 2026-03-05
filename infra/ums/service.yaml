@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ums
+  namespace: ums
+spec:
+  type: LoadBalancer
+  selector:
+    app: ums
+  ports:
+    - name: web
+      port: 9001
+      targetPort: 9001

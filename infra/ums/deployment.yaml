@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ums
+  namespace: ums
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: ums
+  template:
+    metadata:
+      labels:
+        app: ums
+    spec:
+      containers:
+        - name: ums
+          image: universalmediaserver/ums:latest
+          ports:
+            - containerPort: 9001
+          volumeMounts:
+            - name: media
+              mountPath: /media
+      volumes:
+        - name: media
+          persistentVolumeClaim:
+            claimName: ums-media
