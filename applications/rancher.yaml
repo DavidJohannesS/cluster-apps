@@ -1,0 +1,27 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: rancher
+  namespace: argocd-apps
+spec:
+  project: default
+  source:
+    repoURL: https://releases.rancher.com/server-charts/latest
+    chart: rancher
+    targetRevision: 2.10.0 # or "latest" if you prefer
+    helm:
+      values: |
+        hostname: rancher.homenet.meow
+        replicas: 1
+        bootstrapPassword: admin
+        ingress:
+          tls:
+            source: secret
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: cattle-system
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+
