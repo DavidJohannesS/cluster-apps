@@ -1,0 +1,28 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: argocd
+
+helmCharts:
+  - name: argo-cd
+    releaseName: argocd
+    namespace: argocd
+    version: 7.8.2
+    repo: https://argoproj.github.io/argo-helm
+    valuesInline:
+      configs:
+        secret:
+          argocdServerAdminPassword: "$2y$10$I9xuJ09c2//Qak0Sw8NNHe3rMYivynusNlzW4M./Yi/IHqh8EPuB2"
+        cm:
+          kustomize.buildOptions: --enable-helm
+      server:
+        extraArgs:
+          - --insecure
+        ingress:
+          enabled: true
+
+patches:
+  - path: ingress-patch.yaml
+    target:
+      kind: Ingress
+      name: argocd-server
