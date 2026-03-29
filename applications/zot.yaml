@@ -2,13 +2,13 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: zot
-  namespace: argocd-apps
+  namespace: argocd
 spec:
   project: default
   source:
     chart: zot
     repoURL: https://zotregistry.dev/helm-charts
-    targetRevision: 0.1.x  # Check for latest stable
+    targetRevision: 0.1.x
     helm:
       values: |
         service:

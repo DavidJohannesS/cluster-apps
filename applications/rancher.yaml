@@ -2,7 +2,7 @@ apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
   name: rancher
-  namespace: argocd-apps
+  namespace: argocd
 spec:
   project: default
   source:
@@ -11,7 +11,7 @@ spec:
     targetRevision: 2.10.0 # or "latest" if you prefer
     helm:
       values: |
-        hostname: rancher.homenet.meow
+        hostname: rancher.meowhomenet.com
         replicas: 1
         bootstrapPassword: admin
         ingress:
