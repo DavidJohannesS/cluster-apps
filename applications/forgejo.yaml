@@ -5,45 +5,14 @@ metadata:
   namespace: argocd
 spec:
   project: default
-
   source:
-    repoURL: https://codeberg.org/forgejo-contrib/forgejo-helm.git
-    targetRevision: main
-    path: .   # <-- FIXED
-
-    helm:
-      releaseName: forgejo
-      values: |
-        service:
-          type: ClusterIP
-
-        persistence:
-          enabled: true
-          size: 20Gi
-          storageClass: local-path
-
-        ingress:
-          enabled: true
-          className: traefik
-          hosts:
-            - host: forgejo.homenet.meow
-              paths:
-                - path: /
-                  pathType: Prefix
-
-        gitea:
-          admin:
-            username: meow-admin
-            password: "super-secret-password"
-            email: admin@example.com
-
+    repoURL: https://github.com/DavidJohannesS/cluster-apps.git
+    targetRevision: HEAD
+    path: infra/forgejo
   destination:
     server: https://kubernetes.default.svc
     namespace: forgejo
-
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
