@@ -28,8 +28,8 @@ spec:
             - --kafka-addr=PLAINTEXT://0.0.0.0:9092
             - --advertise-kafka-addr=PLAINTEXT://redpanda.kafka.svc.cluster.local:9092
             - --set
-            - redpanda.enable_transactions=false
+            - redpanda.enable_transactions=true
             - --set
-            - redpanda.enable_idempotence=false
+            - redpanda.enable_idempotence=true
           ports:
             - containerPort: 9092
