@@ -20,6 +20,10 @@ helmCharts:
           - --insecure
         ingress:
           enabled: true
+      repoServer:
+              env:
+                - name: ARGOCD_KUSTOMIZE_ENABLE_HELM
+                  value: "true"
 
 patches:
   - path: ingress-patch.yaml
