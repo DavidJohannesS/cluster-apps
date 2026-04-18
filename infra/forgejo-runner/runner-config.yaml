@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Secret
+metadata:
+  name: forgejo-runner-config
+  namespace: forgejo-runner
+type: Opaque
+stringData:
+  config.yaml: |
+    log:
+      level: info
+    runner:
+      capacity: 1
+      file: .runner
+    container:
+      network: "bridge"
+    kubernetes:
+      namespace: forgejo-runner

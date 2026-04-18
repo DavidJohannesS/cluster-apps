@@ -1,0 +1,40 @@
+image:
+  # Registry and Repository must be split to avoid the double-URL bug
+  registry: code.forgejo.org
+  repository: forgejo/runner
+  tag: "6.3.1"
+
+runner:
+  instance: https://git.meowhomenet.com
+  existingSecret: "forgejo-runner-token"
+  ephemeral: true
+  
+  labels:
+    - "ubuntu-latest:k8s://ghcr.io/catthehacker/ubuntu:act-22.04"
+
+  config:
+    create: true
+    kubectl:
+      image:
+        registry: docker.io
+        repository: rancher/kubectl
+        tag: "1.32.0"
+    file:
+      log:
+        level: info
+      runner:
+        capacity: 1
+        file: .runner
+      container:
+        network: "bridge"
+      kubernetes:
+        namespace: forgejo-runner
+
+podSecurityContext:
+  fsGroup: 1000
+
+dind:
+  enabled: false
+
+rbac:
+  create: true
