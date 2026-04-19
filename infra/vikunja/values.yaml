@@ -1,0 +1,68 @@
+vikunja:
+  controllers:
+    main:
+      podSecurityContext:
+        fsGroup: 1000
+        runAsUser: 1000
+        runAsGroup: 1000
+
+      containers:
+        main:
+          image:
+            repository: vikunja/vikunja
+            tag: v0.24.6
+          env:
+            # We just leave the cache permission fixes here
+            HOME: "/tmp"
+            XDG_CACHE_HOME: "/tmp"
+
+  # --- THE JEDI MIND TRICK ---
+  # We let the chart build the file, but we give it the exact data it needs.
+  configMaps:
+    config:
+      enabled: true
+      data:
+        config.yml: |
+          service:
+            publicurl: "https://tasks.meowhomenet.com"
+            enableregistration: true
+          database:
+            type: sqlite
+            path: /db/vikunja.db
+
+  service:
+    main:
+      controller: main
+      ports:
+        http:
+          port: 3456
+
+  ingress:
+    main:
+      enabled: true
+      className: traefik
+      hosts:
+        - host: tasks.meowhomenet.com
+          paths:
+            - path: /
+              service:
+                identifier: main
+                port: 3456
+
+  persistence:
+    # Notice we REMOVED config: enabled: false. We let it mount the file normally.
+    data:
+      enabled: true
+      type: pvc
+      accessMode: ReadWriteOnce
+      size: 2Gi
+      globalMounts:
+        - path: /app/vikunja/files
+    
+    database:
+      enabled: true
+      type: pvc
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      globalMounts:
+        - path: /db
